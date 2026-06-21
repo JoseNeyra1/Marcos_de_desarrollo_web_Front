@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salud Plus - Administrador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f4f7f6; }
+        .navbar-admin { background: linear-gradient(135deg, #343a40, #212529); }
+        .admin-card { border: none; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-admin p-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"><i class="bi bi-shield-lock"></i> Salud Plus | Administración</a>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3" id="navUsername">Cargando...</span>
+                <button class="btn btn-outline-light btn-sm" onclick="cerrarSesion()"><i class="bi bi-box-arrow-right"></i> Salir</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4 text-center">
+            <div class="col-md-4">
+                <div class="card admin-card bg-primary text-white p-3 mb-3 h-100 d-flex justify-content-center">
+                    <h2 id="statMedicos" class="fw-bold"><div class="spinner-border spinner-border-sm" role="status"></div></h2>
+                    <p class="mb-0"><i class="bi bi-people-fill"></i> Médicos Registrados</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card admin-card bg-success text-white p-3 mb-3 h-100 d-flex justify-content-center">
+                    <h2 id="statEspecialidades" class="fw-bold"><div class="spinner-border spinner-border-sm" role="status"></div></h2>
+                    <p class="mb-0"><i class="bi bi-journal-medical"></i> Especialidades Activas</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card admin-card bg-warning text-dark p-3 mb-3 h-100">
+                    <h2 id="statCitas" class="fw-bold"><div class="spinner-border spinner-border-sm" role="status"></div></h2>
+                    <p class="mb-2"><i class="bi bi-calendar-check"></i> Citas Históricas</p>
+                    <button class="btn btn-dark btn-sm w-100" onclick="descargarReportePdf()">
+                        <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Descargar Reporte
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card admin-card p-4 mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="mb-0">Directorio Médico</h3>
+                <button class="btn btn-dark" id="btnAbrirModalMedico"><i class="bi bi-person-plus-fill"></i> Registrar Nuevo Médico</button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>DNI</th>
+                            <th>Nombres y Apellidos</th>
+                            <th>Especialidad</th>
+                            <th>CMP</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaMedicosBody">
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                <div class="spinner-border spinner-border-sm text-secondary" role="status"></div> Cargando datos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalMedico" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Registrar Nuevo Médico</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formMedico" class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">DNI</label>
+                            <input type="text" class="form-control" id="medDni" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Colegiatura (CMP)</label>
+                            <input type="text" class="form-control" id="medCmp" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="medNombres" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="medApellidos" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Especialidad</label>
+                            <select class="form-select" id="medEspecialidad" required>
+                                <option value="">Cargando especialidades...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="medTelefono">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="medCorreo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-dark" id="btnGuardarMedico" onclick="guardarMedico()">Registrar Médico</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarMedico" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Médico</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarMedico" class="row g-3">
+                        <input type="hidden" id="editMedId"> <div class="col-md-6">
+                            <label class="form-label">DNI</label>
+                            <input type="text" class="form-control" id="editMedDni" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Colegiatura (CMP)</label>
+                            <input type="text" class="form-control" id="editMedCmp" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="editMedNombres" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="editMedApellidos" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Especialidad</label>
+                            <select class="form-select" id="editMedEspecialidad" required>
+                                </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="editMedTelefono">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="editMedCorreo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnActualizarMedico" onclick="actualizarMedico()">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <script src="js/admin.js"></script> </body>
+</html>
