@@ -1,0 +1,208 @@
+/* =========================================================================
+   SALUD PLUS - SISTEMA DE DISEÑO COMPARTIDO
+   Tokens de color/tipografía/espaciado + componentes reutilizables.
+   Se carga en todas las páginas ANTES del CSS específico de cada una.
+   ========================================================================= */
+
+:root {
+  --font-heading: 'Poppins', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  --color-primary: #0e9c94;
+  --color-primary-dark: #0a7b74;
+  --color-primary-light: #e3f6f4;
+
+  --color-secondary: #2e8b57;
+  --color-secondary-dark: #226a42;
+  --color-secondary-light: #e7f5ec;
+
+  --color-admin: #232f45;
+  --color-admin-dark: #161d2c;
+  --color-admin-light: #eaecf1;
+
+  --color-warning-light: #fef3e2;
+  --color-warning-dark: #b45309;
+
+  --color-bg: #f5f7f9;
+  --color-surface: #ffffff;
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-border: #e7eaee;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, .06), 0 1px 2px rgba(15, 23, 42, .04);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, .08);
+  --shadow-lg: 0 20px 45px rgba(15, 23, 42, .12);
+
+  --transition: .2s ease;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.stat-value {
+  font-family: var(--font-heading);
+}
+
+/* ---------- Navbars (una identidad, un acento distinto por portal) ---------- */
+.navbar-app {
+  padding: .9rem 0;
+  box-shadow: var(--shadow-sm);
+}
+.navbar-app .navbar-brand {
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+.navbar-app .navbar-brand i { margin-right: .4rem; }
+
+.navbar-patient { background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); }
+.navbar-doctor  { background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-dark)); }
+.navbar-admin   { background: linear-gradient(135deg, var(--color-admin), var(--color-admin-dark)); }
+
+/* ---------- Tarjetas ---------- */
+.card-app {
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+/* ---------- Botones ---------- */
+.btn-app-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: .55rem 1.1rem;
+  transition: background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.btn-app-primary:hover,
+.btn-app-primary:focus {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-app-secondary {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition), transform var(--transition);
+}
+.btn-app-secondary:hover {
+  background-color: var(--color-secondary-dark);
+  border-color: var(--color-secondary-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-app-admin {
+  background-color: var(--color-admin);
+  border-color: var(--color-admin);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition), transform var(--transition);
+}
+.btn-app-admin:hover {
+  background-color: var(--color-admin-dark);
+  border-color: var(--color-admin-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn, .form-control, .form-select {
+  border-radius: var(--radius-sm);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 .2rem rgba(14, 156, 148, .18);
+}
+
+/* ---------- Insignia con ícono circular (usada en stats y secciones informativas) ---------- */
+.icon-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.icon-badge.badge-primary   { background: var(--color-primary-light);   color: var(--color-primary-dark); }
+.icon-badge.badge-secondary { background: var(--color-secondary-light); color: var(--color-secondary-dark); }
+.icon-badge.badge-warning   { background: var(--color-warning-light);   color: var(--color-warning-dark); }
+.icon-badge.badge-admin     { background: var(--color-admin-light);     color: var(--color-admin); }
+
+/* ---------- Tarjetas de estadística (panel admin) ---------- */
+.stat-card {
+  background: var(--color-surface);
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.6rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.stat-card .stat-value {
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+.stat-card .stat-label {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: .9rem;
+  margin: 0;
+}
+
+/* ---------- Tablas ---------- */
+.table-app thead th {
+  font-family: var(--font-heading);
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--color-text-muted);
+  background-color: var(--color-bg);
+  border-bottom: 2px solid var(--color-border);
+}
+.table-app td {
+  vertical-align: middle;
+}
+
+/* ---------- Modales (bordes redondeados consistentes en todo el sitio) ---------- */
+.modal-content {
+  border: none;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ---------- Footer ---------- */
+.footer-app {
+  background-color: var(--color-admin-dark);
+  color: #fff;
+  padding: 2.5rem 0 1.5rem;
+}

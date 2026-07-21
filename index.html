@@ -7,76 +7,101 @@
     <title>Salud Plus - Iniciar Sesión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5 col-lg-4">
-                <div class="card login-card">
-                    <div class="login-header">
-                        <h2><i class="bi bi-heart-pulse-fill"></i> Salud Plus</h2>
-                        <p class="mb-0">Donde la salud es primero</p>
+    <div class="auth-shell">
+        <div class="auth-brand-panel">
+            <div class="auth-brand-content">
+                <div class="auth-logo"><i class="bi bi-heart-pulse-fill"></i></div>
+                <h1>Salud Plus</h1>
+                <p class="tagline">Donde la salud es primero. Gestiona tus citas médicas de forma simple y segura.</p>
+                <ul class="auth-feature-list">
+                    <li><i class="bi bi-check-circle-fill"></i> Agenda tus citas en segundos</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Sigue el estado de cada consulta</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Comunicación directa con tu especialista</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="auth-form-panel">
+            <div class="auth-form-wrapper">
+                <h2>Bienvenido de nuevo</h2>
+                <p class="subtitle">Ingresa tus datos para acceder a tu cuenta</p>
+
+                <div id="alertMessage" class="alert d-none" role="alert"></div>
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label text-muted fw-bold">Usuario (DNI)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i
+                                    class="bi bi-person text-muted"></i></span>
+                            <input type="text" class="form-control" id="username" placeholder="Ingresa tu DNI"
+                                required>
+                        </div>
                     </div>
-                    <div class="card-body p-4">
-                        <div id="alertMessage" class="alert d-none" role="alert"></div>
-                        <form id="loginForm">
-                            <div class="mb-3">
-                                <label for="username" class="form-label text-muted fw-bold">Usuario (DNI)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i
-                                            class="bi bi-person text-muted"></i></span>
-                                    <input type="text" class="form-control" id="username" placeholder="Ingresa tu DNI"
-                                        required>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label for="password" class="form-label text-muted fw-bold">Contraseña</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i class="bi bi-lock text-muted"></i></span>
-                                    <input type="password" class="form-control" id="password"
-                                        placeholder="Ingresa tu contraseña" required>
-                                </div>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-medical" id="btnSubmit">
-                                    Ingresar <i class="bi bi-box-arrow-in-right"></i>
-                                </button>
-                                <div class="text-center mt-3">
-                                    <a href="#" class="text-success text-decoration-none" data-bs-toggle="modal"
-                                        data-bs-target="#modalRecuperar">
-                                        <small>¿Olvidaste tu contraseña?</small>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="mb-4">
+                        <label for="password" class="form-label text-muted fw-bold">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" class="form-control" id="password"
+                                placeholder="Ingresa tu contraseña" required>
+                        </div>
                     </div>
-                </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-app-primary" id="btnSubmit">
+                            Ingresar <i class="bi bi-box-arrow-in-right"></i>
+                        </button>
+                        <div class="text-center mt-3">
+                            <a href="#" class="text-decoration-none" style="color: var(--color-primary-dark);" data-bs-toggle="modal"
+                                data-bs-target="#modalRecuperar">
+                                <small>¿Olvidaste tu contraseña?</small>
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="modalRecuperar" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-success text-white">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg); overflow: hidden;">
+                <div class="modal-header text-white" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border: none;">
                     <h5 class="modal-title"><i class="bi bi-key"></i> Restablecer Contraseña</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <p class="text-muted small mb-4">Ingresa tu número de documento (DNI) y la nueva contraseña que deseas utilizar para acceder al sistema.</p>
                     <form id="formRecuperar">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Número de Documento (DNI)</label>
-                            <input type="text" class="form-control" id="recUsername" placeholder="Ej: 73178438" required>
+                        <div id="pasoSolicitarCodigo">
+                            <p class="text-muted small mb-4">Ingresa tu número de documento (DNI). Te enviaremos un código de verificación al correo registrado en tu cuenta.</p>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Número de Documento (DNI)</label>
+                                <input type="text" class="form-control" id="recUsername" placeholder="Ej: 73178438" required>
+                            </div>
+                            <button type="button" class="btn btn-app-primary w-100" id="btnSolicitarCodigo" onclick="solicitarCodigo()">
+                                Enviar Código de Verificación
+                            </button>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">Nueva Contraseña</label>
-                            <input type="password" class="form-control" id="recNuevaPassword" placeholder="Escribe tu nueva clave" required>
+                        <div id="pasoConfirmarCodigo" class="d-none">
+                            <p class="text-muted small mb-4">Ingresa el código que recibiste por correo y tu nueva contraseña.</p>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Código de Verificación</label>
+                                <input type="text" class="form-control" id="recCodigo" placeholder="Ej: 123456" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Nueva Contraseña</label>
+                                <input type="password" class="form-control" id="recNuevaPassword" placeholder="Escribe tu nueva clave" required>
+                            </div>
+                            <button type="button" class="btn btn-app-primary w-100" id="btnRestablecer" onclick="cambiarPassword()">
+                                Actualizar Contraseña
+                            </button>
                         </div>
-                        <button type="button" class="btn btn-success w-100 fw-bold" id="btnRestablecer" onclick="cambiarPassword()">
-                            Actualizar Contraseña
-                        </button>
                     </form>
                 </div>
             </div>
@@ -84,8 +109,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <script src="js/login.js"></script>
 </body>
 </html>

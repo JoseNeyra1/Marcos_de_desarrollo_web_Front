@@ -1,34 +1,110 @@
 body {
-    background-color: #f4f7f6;
-    height: 100vh;
+    background-color: var(--color-surface);
+    margin: 0;
+}
+
+.auth-shell {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* ---------- Panel de marca (izquierda) ---------- */
+.auth-brand-panel {
+    flex: 1;
+    background: linear-gradient(160deg, var(--color-primary), var(--color-primary-dark));
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.login-card {
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 4rem 3rem;
+    position: relative;
     overflow: hidden;
 }
-.login-header {
-    background: linear-gradient(135deg, #20b2aa, #17a2b8);
-    color: white;
-    padding: 30px 20px;
-    text-align: center;
+.auth-brand-panel::before {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+    top: -140px;
+    right: -140px;
 }
-.btn-medical {
-    background-color: #20b2aa;
-    color: white;
-    font-weight: bold;
-    border-radius: 8px;
-    padding: 10px;
+.auth-brand-panel::after {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .06);
+    bottom: -100px;
+    left: -80px;
 }
-.btn-medical:hover {
-    background-color: #178b85;
-    color: white;
+.auth-brand-content {
+    max-width: 420px;
+    position: relative;
+    z-index: 1;
 }
-.form-control:focus {
-    border-color: #20b2aa;
-    box-shadow: 0 0 0 0.25rem rgba(32, 178, 170, 0.25);
+.auth-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, .16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 1.75rem;
+}
+.auth-brand-content h1 {
+    font-weight: 700;
+    font-size: 2.25rem;
+    margin-bottom: .75rem;
+}
+.auth-brand-content p.tagline {
+    opacity: .92;
+    font-size: 1.05rem;
+    margin-bottom: 2.25rem;
+}
+.auth-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+}
+.auth-feature-list li {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    font-size: .95rem;
+    opacity: .95;
+}
+.auth-feature-list i { font-size: 1.05rem; }
+
+/* ---------- Panel del formulario (derecha) ---------- */
+.auth-form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+.auth-form-wrapper {
+    width: 100%;
+    max-width: 380px;
+}
+.auth-form-wrapper h2 {
+    font-weight: 700;
+    margin-bottom: .35rem;
+}
+.auth-form-wrapper .subtitle {
+    color: var(--color-text-muted);
+    margin-bottom: 1.75rem;
+}
+
+@media (max-width: 900px) {
+    .auth-brand-panel { display: none; }
+    .auth-form-panel { padding: 2.5rem 1.25rem; }
 }

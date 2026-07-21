@@ -76,15 +76,50 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
 
 // ==========================================
-// 2. LÓGICA PARA RESTABLECER CONTRASEÑA
+// 2. LÓGICA PARA RESTABLECER CONTRASEÑA (2 pasos: código por correo)
 // ==========================================
+async function solicitarCodigo() {
+    const username = document.getElementById('recUsername').value;
+    const btnSolicitar = document.getElementById('btnSolicitarCodigo');
+
+    if (!username) {
+        Swal.fire({ icon: 'warning', title: 'Campo vacío', text: 'Por favor ingresa tu DNI.' });
+        return;
+    }
+
+    btnSolicitar.disabled = true;
+    btnSolicitar.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
+
+    try {
+        const response = await fetch('http://localhost:8080/api/auth/solicitar-reset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username })
+        });
+
+        const data = await response.json();
+        Swal.fire({ icon: 'info', title: 'Revisa tu correo', text: data.mensaje });
+
+        if (response.ok) {
+            document.getElementById('pasoSolicitarCodigo').classList.add('d-none');
+            document.getElementById('pasoConfirmarCodigo').classList.remove('d-none');
+        }
+    } catch (error) {
+        Swal.fire({ icon: 'error', title: 'Error de conexión', text: 'No se pudo conectar con el servidor.' });
+    } finally {
+        btnSolicitar.disabled = false;
+        btnSolicitar.innerHTML = 'Enviar Código de Verificación';
+    }
+}
+
 async function cambiarPassword() {
     const username = document.getElementById('recUsername').value;
+    const codigo = document.getElementById('recCodigo').value;
     const nuevaPassword = document.getElementById('recNuevaPassword').value;
     const btnRestablecer = document.getElementById('btnRestablecer');
 
-    if (!username || !nuevaPassword) {
-        Swal.fire({ icon: 'warning', title: 'Campos vacíos', text: 'Por favor ingresa tu DNI y tu nueva contraseña.' });
+    if (!codigo || !nuevaPassword) {
+        Swal.fire({ icon: 'warning', title: 'Campos vacíos', text: 'Ingresa el código recibido y tu nueva contraseña.' });
         return;
     }
 
@@ -92,14 +127,17 @@ async function cambiarPassword() {
     btnRestablecer.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Procesando...';
 
     try {
-        const response = await fetch('http://localhost:8080/api/auth/restablecer-password', {
+        const response = await fetch('http://localhost:8080/api/auth/confirmar-reset', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                username: username, 
-                nuevaPassword: nuevaPassword 
+            body: JSON.stringify({
+                username: username,
+                codigo: codigo,
+                nuevaPassword: nuevaPassword
             })
         });
+
+        const data = await response.json();
 
         if (response.ok) {
             // Cerramos el modal
@@ -107,9 +145,12 @@ async function cambiarPassword() {
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
 
-            // Limpiamos los campos
+            // Limpiamos los campos y volvemos al paso 1 para la próxima vez
             document.getElementById('recUsername').value = '';
+            document.getElementById('recCodigo').value = '';
             document.getElementById('recNuevaPassword').value = '';
+            document.getElementById('pasoConfirmarCodigo').classList.add('d-none');
+            document.getElementById('pasoSolicitarCodigo').classList.remove('d-none');
 
             Swal.fire({
                 icon: 'success',
@@ -118,7 +159,6 @@ async function cambiarPassword() {
                 confirmButtonColor: '#198754'
             });
         } else {
-            const data = await response.json();
             Swal.fire({ icon: 'error', title: 'Error', text: data.mensaje });
         }
     } catch (error) {
